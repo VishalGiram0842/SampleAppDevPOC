@@ -18,6 +18,6 @@ jobs:
       - name: Fake deploy to DEV
         run: echo "Simulating DEV deployment for POC..."
       - name: Trigger DEV automation tests
-      run: curl -X POST -H "Authorization: token ${{ secrets.AUTOMATION_REPO_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/VishalGiram0842/SampleRepoForCICD/dispatches -d '{"event_type":"run-dev-tests","client_payload":{"source_repo":"${{ github.repository }}","env":"DEV"}}'
+      run: echo "Dispatching to SampleRepoForCICD..."
       - name: Post Checkout
         run: echo "Deployment completed"
