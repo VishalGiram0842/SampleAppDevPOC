@@ -25,8 +25,8 @@ jobs:
           github-token: ${{ secrets.AUTOMATION_REPO_TOKEN }}
           script: |
             github.rest.repos.createDispatchEvent({
-              owner: 'VishalGiram0842',
-              repo: 'SampleRepoForCICD',
+              owner: 'EqanimTech',
+              repo: 'wci-auction-citss-Automation',
               event_type: 'run-dev-tests',
               client_payload: {
                 source_repo: context.repo.repo,
