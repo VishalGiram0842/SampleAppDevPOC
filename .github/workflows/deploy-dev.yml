@@ -18,6 +18,6 @@ jobs:
       - name: Fake deploy to DEV
         run: echo "Simulating DEV deployment for POC..."
       - name: Trigger DEV automation tests
-      run: echo "Dispatching to SampleRepoForCICD..."
+        run: echo "Dispatching to SampleRepoForCICD..."
       - name: Post Checkout
         run: echo "Deployment completed"
