@@ -20,7 +20,7 @@ jobs:
       - name: Trigger DEV automation tests
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTOMATION_REPO_TOKEN }}
           repository: VishalGiram0842/SampleRepoForCICD
           event-type: run-dev-tests
           client-payload: |
