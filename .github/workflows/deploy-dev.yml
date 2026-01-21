@@ -23,7 +23,7 @@ jobs:
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.AUTOMATION_REPO_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/VishalGiram0842/SampleRepoForCICD/dispatches \
             -d '{"event_type":"run-dev-tests","client_payload":{"source_repo":"${{ github.repository }}","env":"DEV"}}'
       
