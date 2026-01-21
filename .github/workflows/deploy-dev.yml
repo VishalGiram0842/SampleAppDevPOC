@@ -5,21 +5,18 @@ on:
     branches:
       - dev
 
-      permissions:
+permissions:
   contents: read
   actions: write
 
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Fake deploy to DEV
         run: echo "Simulating DEV deployment for POC..."
-
       - name: Trigger DEV automation tests
         uses: peter-evans/repository-dispatch@v3
         with:
