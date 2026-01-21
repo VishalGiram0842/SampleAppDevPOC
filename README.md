@@ -1,5 +1,8 @@
 # SampleAppDevPOC
 
+# Test 3 - QA workflow Maven property fix
+Testing the fixed Maven property quoting in QA workflow.
+
 # Test 2 - Regenerated token with proper scopes
 Regenerated token with repo and workflow scopes to fix repository dispatch issue.
 
