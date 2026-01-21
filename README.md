@@ -1,5 +1,8 @@
 # SampleAppDevPOC
 
+# Test 2 - Regenerated token with proper scopes
+Regenerated token with repo and workflow scopes to fix repository dispatch issue.
+
 # Test - Triggering workflow with fixed token
 Test commit to verify cross-repo dispatch is working with AUTOMATION_REPO_TOKEN.
 POC app repository for CI/CD integration with QA automation framework
