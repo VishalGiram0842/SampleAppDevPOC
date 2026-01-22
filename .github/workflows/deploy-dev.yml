@@ -1,5 +1,4 @@
-name: Deploy to DEV
-
+name: Deploy to DEV and CITSS
 on:
   push:
     branches:
@@ -11,14 +10,32 @@ permissions:
   actions: write
 
 jobs:
+  determine-env:
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-env.outputs.environment }}
+      event_type: ${{ steps.set-env.outputs.event_type }}
+    steps:
+      - name: Determine environment from branch
+        id: set-env
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+            echo "environment=DEV" >> $GITHUB_OUTPUT
+            echo "event_type=run-dev-tests" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" == "refs/heads/CITSS" ]; then
+            echo "environment=CITSS" >> $GITHUB_OUTPUT
+            echo "event_type=run-citss-tests" >> $GITHUB_OUTPUT
+          fi
+
   deploy-dev:
+    needs: determine-env
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Fake deploy to DEV
-        run: echo "Simulating DEV deployment for POC..."
+      - name: Fake deploy to ${{ needs.determine-env.outputs.environment }}
+        run: echo "Simulating ${{ needs.determine-env.outputs.environment }} deployment for POC..."
       
       - name: Trigger QA automation via API
         uses: actions/github-script@v7
@@ -28,12 +45,12 @@ jobs:
             github.rest.repos.createDispatchEvent({
               owner: 'VishalGiram0842',
               repo: 'SampleRepoForCICD',
-              event_type: 'run-dev-tests',
+              event_type: '${{ needs.determine-env.outputs.event_type }}',
               client_payload: {
                 source_repo: context.repo.repo,
-                env: 'DEV'
+                environment: '${{ needs.determine-env.outputs.environment }}'
               }
             })
       
       - name: Post Deployment
-        run: echo "Deployment completed"
+        run: echo "Deployment to ${{ needs.determine-env.outputs.environment }} completed"
