@@ -15,6 +15,7 @@ jobs:
     outputs:
       environment: ${{ steps.set-env.outputs.environment }}
       event_type: ${{ steps.set-env.outputs.event_type }}
+      target_env: ${{ steps.set-env.outputs.target_env }}
     steps:
       - name: Determine environment from branch
         id: set-env
@@ -22,9 +23,11 @@ jobs:
           if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             echo "environment=DEV" >> $GITHUB_OUTPUT
             echo "event_type=run-dev-tests" >> $GITHUB_OUTPUT
+            echo "target_env=ETP" >> $GITHUB_OUTPUT
           elif [ "${{ github.ref }}" == "refs/heads/CITSS" ]; then
             echo "environment=CITSS" >> $GITHUB_OUTPUT
             echo "event_type=run-citss-tests" >> $GITHUB_OUTPUT
+            echo "target_env=CITSS" >> $GITHUB_OUTPUT
           fi
 
   deploy-dev:
@@ -48,9 +51,10 @@ jobs:
               event_type: '${{ needs.determine-env.outputs.event_type }}',
               client_payload: {
                 source_repo: context.repo.repo,
-                environment: '${{ needs.determine-env.outputs.environment }}'
+                deployment_env: '${{ needs.determine-env.outputs.environment }}',
+                target_env: '${{ needs.determine-env.outputs.target_env }}'
               }
             })
       
       - name: Post Deployment
-        run: echo "Deployment to ${{ needs.determine-env.outputs.environment }} completed"
+        run: echo "Deployment to ${{ needs.determine-env.outputs.environment }} completed. Tests will run against ${{ needs.determine-env.outputs.target_env }} environment"
